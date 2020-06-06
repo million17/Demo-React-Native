@@ -1,57 +1,37 @@
 import 'react-native-gesture-handler';
 import React, { Component } from 'react';
-import { View, Text, Image, ScrollView, Platform, StyleSheet } from 'react-native';
-import Dog from './src/components/Dog';
-import FlatListBasic from './src/components/FlatListBasic';
-import ButtonBasic from './src/components/ButtonBasic';
+import { View, Text, Image, ScrollView, Platform, StyleSheet, Button } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 export default class App extends Component {
   render() {
-    function getName(firstName, lastName, fullName) {
-      return "\nTên Họ :" + firstName + "\nTên :" + lastName + "\nTên Đầy Đủ :" + fullName;
-    }
 
-    function CatName(props) {
+    const Stack = createStackNavigator();
+
+    function MyProfile() {
       return (
-        <View>
-          <Text>This is a {props.name}</Text>
-        </View>
+        <View>My Profile</View>
+      );
+    }
+    function HomeScreen(navigation) {
+      return (
+        <Button
+          title="Go to Profile"
+          onPress={() =>
+            navigation.navigate('Profile', { name: 'Jane ' })}
+        />
       );
     }
 
-    function CatImage() {
-      return (
-        <View style={{ margin: 10 }}>
-          <Image source={{ uri: "https://reactnative.dev/docs/assets/p_cat2.png" }}
-            style={{
-              height: 100,
-              width: 100,
-            }}></Image>
-        </View>
-      );
-    }
-
-
-    const name = "Ngo Quang Trieu";
     return (
-      <NavigationContainer style={styles.container}>
-        <Text style={{ color: Platform.OS === 'ios' ? 'red' : 'blue' }}>Hello , {name}</Text>
-        <Text>Function , {getName("Ngô Quang", "Triệu", "Ngô Quang Triệu")}</Text>
-        <Dog name="Poodle" />
-        <Dog name="Pug" />
-        <CatImage />
-        <CatName name="Mèo ta"></CatName>
-        <Text>FlatList</Text>
-        <FlatListBasic />
-        <ButtonBasic />
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+          />
+        </Stack.Navigator>
       </NavigationContainer>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "column",
-    margin: 10
-  }
-
-});
