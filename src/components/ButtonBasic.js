@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Button, Text, View, TouchableOpacity, StyleSheet } from 'react-native'
+import {Text, View, TouchableOpacity, StyleSheet } from 'react-native'
+import Button from 'react-native-button'
 
 export default class ButtonBasic extends Component {
     _onPressButton() {
@@ -7,21 +8,18 @@ export default class ButtonBasic extends Component {
     }
     render() {
         return (
-            <View>
-                <Text>Button Basic</Text>
-                <Button onPress={this._onPressButton} title="Press Me ! "></Button>
-                <TouchableOpacity onPress={this._onPressButton} title="Touchable Opacity !" >
-                    <Text style={styles.buttonTouchable}>Touchable Opacity</Text>
-                </TouchableOpacity>
+            <View style={{
+                  fontSize: 20,
+                  fontWeight: 'bold',
+                  backgroundColor: 'blue',
+                  color: 'white',
+                  padding: 10,
+                  borderRadius: 10,
+                }}
+                onPress={this._onPressButton}>
+                <Button>Button Basic</Button>
             </View>
         )
     }
 }
 
-const styles = StyleSheet.create({
-    buttonTouchable: {
-        height: 40,
-        backgroundColor: 'blue',
-        textAlign: 'center',
-    }
-});
