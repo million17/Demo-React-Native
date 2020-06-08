@@ -32,10 +32,7 @@ export default class ButtonBasic extends Component {
           <View>
             <Image
               style={{height: 40, width: 100}}
-              source={{
-                uri:
-                  'https://lh3.googleusercontent.com/proxy/yBTQjOT9TEnHrIYIg9xZhxqe8xkNPMT8GbocsBtEr-YI-FyCnEvRkf3hNOQP4PlEwHp6oi9cHoW8jaqR2ApZVfzkyObuLqaHSrpEJWV52kgjp94-W4jMxvNGepH21pXHV5GwDA37EAWOmt7_',
-              }}
+              source={require('../images/buttonTouchableHighlight.png')}
             />
           </View>
         </TouchableHighlight>
