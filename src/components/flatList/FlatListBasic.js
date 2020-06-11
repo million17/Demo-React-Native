@@ -59,7 +59,7 @@ class FlatListItem extends Component {
         },
         {
           onPress: () => {
-            this.props.parentFlatList.resf.editModal.showEditModal(
+            this.props.parentFlatList.refs.editModal.showEditModal(
               flatListData[this.props.index],
               this,
             );
