@@ -1,5 +1,13 @@
 import React, {Component} from 'react';
-import {Text, View, FlatList, StyleSheet, Image, Alert} from 'react-native';
+import {
+  Text,
+  View,
+  FlatList,
+  StyleSheet,
+  Image,
+  Alert,
+  Platform,
+} from 'react-native';
 import flatListData from '../data/flatListData';
 import Swipeout from 'react-native-swipeout';
 
@@ -22,6 +30,7 @@ class FlatListItem extends Component {
       right: [
         {
           onPress: () => {
+            const deletingRow = this.state.activeRowKey;
             Alert.alert(
               'Alert',
               'Are you sure you want to delete ?',
@@ -35,6 +44,7 @@ class FlatListItem extends Component {
                   text: 'Yes',
                   onPress: () => {
                     flatListData.splice(this.props.index, 1);
+                    this.props.parenFlatList.refreshFlatList(deletingRow);
                   },
                 },
               ],
@@ -95,8 +105,12 @@ export default class FlatListBasic extends Component {
       deleteRowKey: null,
     };
   }
-  refreshFlatList = deleteKey => {
-    this.setState((prevState));
+  refreshFlatList = deletedKey => {
+    this.setState(prevState => {
+      return {
+        deleteRowKey: deletedKey,
+      };
+    });
   };
   render() {
     return (
@@ -106,7 +120,7 @@ export default class FlatListBasic extends Component {
           renderItem={({item, index}) => {
             // console.log(`Item : = ${JSON.stringify(item)} , index = ${index}`);
             return (
-              <FlatListItem item={item} index={index}>
+              <FlatListItem item={item} index={index} parenFlatList={this}>
                 {' '}
               </FlatListItem>
             );
