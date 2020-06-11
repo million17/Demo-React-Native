@@ -1,5 +1,8 @@
 npm install --save react-native-swipeout
 
+
 npm install react-native-modalbox@latest --save
 
 npm install random-string
+
+npm install --save react-native-vector-icons
