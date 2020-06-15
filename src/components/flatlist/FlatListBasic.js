@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -7,12 +7,13 @@ import {
   Image,
   Alert,
   TouchableHighlight,
+  RefreshControl
 } from 'react-native';
 import Swipeout from 'react-native-swipeout';
-// import AddModal from './AddModal';
+import AddModal from '../AddModal';
 // import EditModal from './EditModal';
 
-import {getAllListProduct} from '../../networking/Server';
+import { getAllListProduct } from '../../networking/Server';
 
 class FlatListItem extends Component {
   constructor(props) {
@@ -26,10 +27,10 @@ class FlatListItem extends Component {
     const swipeSetting = {
       autoClose: true,
       onOpen: (secId, rowId, derection) => {
-        this.setState({activeRowKey: this.props.item.key});
+        this.setState({ activeRowKey: this.props.item.key });
       },
       onClose: (secId, rowId, derection) => {
-        this.setState({activeRowKey: null});
+        this.setState({ activeRowKey: null });
       },
       right: [
         {
@@ -53,7 +54,7 @@ class FlatListItem extends Component {
                   },
                 },
               ],
-              {cancelable: true},
+              { cancelable: true },
             );
           },
           text: 'Delete',
@@ -88,8 +89,8 @@ class FlatListItem extends Component {
               padding: 4,
             }}>
             <Image
-              style={{width: 100, height: 100}}
-              source={{uri: 'http://10.1.34.224' + this.props.item.mainImage}}
+              style={{ width: 100, height: 100 }}
+              source={{ uri: 'http://192.168.1.25' + this.props.item.mainImage }}
             />
             <View
               style={{
@@ -120,6 +121,7 @@ export default class FlatListBasic extends Component {
     super(props);
     this.state = {
       deleteRowKey: null,
+      refreshing: false,
       productsFromServer: [],
     };
     this._onPressAdd = this._onPressAdd.bind(this);
@@ -129,14 +131,17 @@ export default class FlatListBasic extends Component {
     this.refreshDataFromServer();
   }
   refreshDataFromServer = () => {
+    this.setState({ refreshing: true })
     getAllListProduct()
       .then(products => {
-        this.setState({productsFromServer: products});
-        console.log(`Is data : success ${products} !`);
+        this.setState({ refreshing: false })
+        this.setState({ productsFromServer: products });
+        // console.log(`Is data : success ${products} !`);
       })
       .catch(error => {
-        this.setState({productsFromServer: []});
-        console.log('SADASDAS');
+        this.setState({ refreshing: false })
+        this.setState({ productsFromServer: [] });
+        // console.log('SADASDAS');
       });
   };
 
@@ -146,22 +151,25 @@ export default class FlatListBasic extends Component {
         deleteRowKey: activeKey,
       };
     });
-    this.refs.flatList.scrollToEnd({duration: 500});
+    this.refs.flatList.scrollToEnd({ duration: 500 });
   };
   _onPressAdd = () => {
-    // this.refs.addModal.showAddModal();
-    alert('This show alert modal');
+    this.refs.addModal.showAddModal();
+    // alert('This show alert modal');
   };
+  _onRefresh = () => {
+    this.refreshDataFromServer();
+  }
   render() {
     return (
-      <View style={{flexDirection: 'column', marginBottom: 100}}>
+      <View style={{ flexDirection: 'column', marginBottom: 100 }}>
         <View style={styles.viewTopPage}>
           <TouchableHighlight
-            style={{marginRight: 10}}
+            style={{ marginRight: 10 }}
             underlayColor="tomato"
             onPress={this._onPressAdd}>
             <Image
-              style={{width: 35, height: 35}}
+              style={{ width: 35, height: 35 }}
               source={{
                 uri:
                   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAYAAAA6oTAqAAAAEXRFWHRTb2Z0d2FyZQBwbmdjcnVzaEB1SfMAAABQSURBVGje7dSxCQBACARB+2/ab8BEeQNhFi6WSYzYLYudDQYGBgYGBgYGBgYGBgYGBgZmcvDqYGBgmhivGQYGBgYGBgYGBgYGBgYGBgbmQw+P/eMrC5UTVAAAAABJRU5ErkJggg==',
@@ -173,7 +181,7 @@ export default class FlatListBasic extends Component {
           ref={'flatList'}
           //   data={flatListData}
           data={this.state.productsFromServer}
-          renderItem={({item, index}) => {
+          renderItem={({ item, index }) => {
             // console.log(`Item : = ${JSON.stringify(item)} , index = ${index}`);
             return (
               <FlatListItem item={item} index={index} parentFlatList={this}>
@@ -181,11 +189,14 @@ export default class FlatListBasic extends Component {
               </FlatListItem>
             );
           }}
+          refreshControl={<RefreshControl refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh}
+          />}
           keyExtractor={(item, index) => item.id}
         />
-        {/* <AddModal ref={'addModal'} parentFlatList={this} />
+        <AddModal ref={'addModal'} parentFlatList={this} />
 
-        <EditModal ref={'editModal'} parentFlatList={this} /> */}
+        {/* <EditModal ref={'editModal'} parentFlatList={this} /> */}
       </View>
     );
   }
