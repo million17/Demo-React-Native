@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     Text,
     StyleSheet,
@@ -7,7 +7,7 @@ import {
     TextInput,
     Button,
 } from 'react-native';
-import { createProduct } from '../networking/Server';
+import {createProduct} from '../networking/Server';
 import Modal from 'react-native-modalbox';
 
 var screen = Dimensions.get('window').width;
@@ -24,12 +24,14 @@ export default class AddModal extends Component {
             brand: '',
         };
     }
+
     showAddModal = () => {
         this.refs.myModal.open();
     };
     generateKey = numberOfCharaters => {
-        return require('random-string')({ length: numberOfCharaters });
+        return require('random-string')({length: numberOfCharaters});
     };
+
     render() {
         return (
             <Modal
@@ -44,26 +46,26 @@ export default class AddModal extends Component {
                 <TextInput
                     style={styles.textInput}
                     placeholder="Enter Input Product Name !"
-                    onChangeText={text => this.setState({ productName: text })}
+                    onChangeText={text => this.setState({productName: text})}
                     value={this.state.productName}
                 />
                 <TextInput
                     style={styles.textInput}
                     placeholder="Enter Input Short Description !"
                     value={this.state.shortDesc}
-                    onChangeText={text => this.setState({ shortDesc: text })}
+                    onChangeText={text => this.setState({shortDesc: text})}
                 />
                 <TextInput
                     style={styles.textInput}
                     placeholder="Enter Input Price !"
                     value={this.state.price}
-                    onChangeText={text => this.setState({ price: text })}
+                    onChangeText={text => this.setState({price: text})}
                 />
                 <TextInput
                     style={styles.textInput}
                     placeholder="Enter Input Brand !"
                     value={this.state.brand}
-                    onChangeText={text => this.setState({ brand: text })}
+                    onChangeText={text => this.setState({brand: text})}
                 />
                 <Button
                     style={styles.textButton}
@@ -98,7 +100,7 @@ export default class AddModal extends Component {
                         this.refs.myModal.close();
                     }}>
                     Save
-        </Button>
+                </Button>
             </Modal>
         );
     }
