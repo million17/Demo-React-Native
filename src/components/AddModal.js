@@ -28,9 +28,9 @@ export default class AddModal extends Component {
     showAddModal = () => {
         this.refs.myModal.open();
     };
-    generateKey = numberOfCharaters => {
-        return require('random-string')({length: numberOfCharaters});
-    };
+    // generateKey = numberOfCharaters => {
+    //     return require('random-string')({length: numberOfCharaters});
+    // };
 
     render() {
         return (
@@ -82,7 +82,7 @@ export default class AddModal extends Component {
                             return;
                         }
                         const newProduct = {
-                            name: this.state.productName,
+                            productName: this.state.productName,
                             shortDesc: this.state.shortDesc,
                             mainImage: '/link/no_image.jpg',
                             brand: this.state.brand,
